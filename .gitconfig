@@ -5,3 +5,5 @@
 	email = julianooi@gmail.com
 [core]
 	pager = less -FRSX
+[push]
+	autoSetupRemote = true
