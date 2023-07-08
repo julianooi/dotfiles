@@ -1,0 +1,7 @@
+[init]
+	defaultBranch = main
+[user]
+	name = Julian Ooi
+	email = julianooi@gmail.com
+[core]
+	pager = less -FRSX
