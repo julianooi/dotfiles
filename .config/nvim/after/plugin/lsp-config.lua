@@ -21,7 +21,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
     vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
     vim.api.nvim_create_autocmd("CursorMoved", {
-        callback = function() 
+        callback = function()
           vim.lsp.buf.clear_references()
           vim.lsp.buf.document_highlight()
         end,
@@ -64,20 +64,34 @@ require('mason-lspconfig').setup({
       require('lspconfig').terraformls.setup {
         filetypes = {'tf'}
       }
+    end,
+    lua_ls = function()
+      require('lspconfig').lua_ls.setup (lsp.nvim_lua_ls())
     end
   },
 })
 
-lsp.extend_cmp()
-local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
-cmp.setup({
-
+lsp.extend_cmp({
+  set_basic_mapping = true,
+  set_extra_mappings = true,
+  documentation_window = true,
 })
+
+local cmp = require('cmp')
+cmp.setup {
+  mapping = {
+    ['<CR>'] = cmp.mapping.confirm({select = false}),
+  },
+  sources = {
+    { name = 'nvim_lsp', group_index = 1, priority = 9},
+    { name = 'luasnip', group_index = 1, priority = 10},
+    { name = 'buffer', group_index = 10},
+  }
+}
 
 lsp.on_attach(on_attach)
 lsp.setup()
- 
+
 -- Flutter setupfunction()
 require('flutter-tools').setup {
   widget_guides = {
