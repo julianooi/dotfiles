@@ -32,3 +32,5 @@ vim.filetype.add {
     mjml = 'xml',
   },
 }
+
+vim.o.exrc = true

@@ -71,27 +71,34 @@ require('lazy').setup({
   { 'fatih/vim-go', build = 'GoUpdateBinaries' },
   {
     'VonHeikemen/lsp-zero.nvim',
-    branch = 'v1.x',
+    branch = 'dev-v3',
     config = false,
     dependencies = {
-			-- LSP Support
-			{'neovim/nvim-lspconfig'},             -- Required
-			{'williamboman/mason.nvim'},           -- Optional
-			{'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-			-- Autocompletion
-			{'hrsh7th/nvim-cmp'},         -- Required
-			{'hrsh7th/cmp-nvim-lsp'},     -- Required
-			{'hrsh7th/cmp-buffer'},       -- Optional
-			{'hrsh7th/cmp-path'},         -- Optional
-			{'saadparwaiz1/cmp_luasnip'}, -- Optional
-			{'hrsh7th/cmp-nvim-lua'},     -- Optional
       {'folke/neodev.nvim'},
-
-			-- Snippets
-			{'L3MON4D3/LuaSnip'},             -- Required
-			{'rafamadriz/friendly-snippets'}, -- Optional
     },
+  },
+	{
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      {'hrsh7th/cmp-nvim-lsp'}
+    }
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      {'hrsh7th/cmp-buffer'},       -- Optional
+      {'hrsh7th/cmp-path'},         -- Optional
+      {'hrsh7th/cmp-nvim-lua'},     -- Optional
+      {'saadparwaiz1/cmp_luasnip'}, -- Optional
+    },
+  },
+	{'williamboman/mason.nvim'},
+  {'williamboman/mason-lspconfig.nvim'},
+  {
+    'L3MON4D3/LuaSnip',
+    dependencies = {
+			{'rafamadriz/friendly-snippets'}, -- Optional
+    }
   },
   'sago35/tinygo.vim',
   'folke/neodev.nvim',
@@ -101,6 +108,15 @@ require('lazy').setup({
     name = 'rest-nvim',
   },
   'nvim-treesitter/nvim-treesitter-context',
+  {
+    'akinsho/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim',
+    },
+    config = false,
+  },
 
   -- tools
   {
