@@ -81,6 +81,12 @@ local cmp = require('cmp')
 cmp.setup {
   mapping = {
     ['<CR>'] = cmp.mapping.confirm({select = false}),
+    ['<C-p>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        return cmp.select_next_item()
+      end
+      fallback()
+    end)
   },
   sources = {
     { name = 'nvim_lsp', group_index = 1, priority = 9},
