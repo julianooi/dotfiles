@@ -31,8 +31,8 @@ include /etc/sway/config.d/*
 # user config
 include $HOME/.config/sway/config.d/*.conf
 
-assign [class="Opera"] workspace 1
-assign [app_id="foot"] workspace 2
-assign [class="obsidian"] workspace 3
-assign [app_id="Slack"] workspace 5
-assign [app_id="thunderbird"] workspace 5
+assign [class="Opera"] workspace number 1
+assign [app_id="foot"] workspace number 2
+assign [class="obsidian"] workspace number 3
+assign [app_id="Slack"] workspace number 5
+assign [app_id="thunderbird"] workspace number 5
