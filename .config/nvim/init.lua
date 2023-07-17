@@ -222,13 +222,15 @@ require('lazy').setup({
     'rmagatti/auto-session',
     config = function ()
       require('auto-session').setup {
-        log_levvel = 'error',
+        log_level = 'error',
         auto_session_suppress_dirs = {
           '~/',
           '~/Projects',
           '~/Downloads',
           '/',
-        }
+        },
+        pre_save_cmds = {"tabdo NvimTreeClose"},
+        post_restore_cmds = {"tabdo NvimTreeOpen", "tabdo NvimTreeRefresh"},
       }
     end
   },
