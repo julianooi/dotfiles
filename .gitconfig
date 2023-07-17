@@ -8,8 +8,8 @@
 [push]
 	autoSetupRemote = true
 [url "git@rtx.bitbucket.org:zumata_scripts"]
-  insteadOf = "https://bitbucket.org/zumata_scripts"
+  insteadOf = https://bitbucket.org/zumata_scripts
 [url "git@github.com:"]
-  insteadOf = "https://github.com/"
+  insteadOf = https://github.com/
 [safe]
 	directory = /opt/flutter

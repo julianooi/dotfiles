@@ -10,6 +10,9 @@ path+=('/home/julianooi/.cargo/bin')
 path+=('/home/julianooi/.ghcup/bin')
 path+=('/opt/flutter/bin')
 
+# personal exports
+export GOPRIVATE="github.com/Zumata,bitbucket.org/zumata_scripts"
+
 # Path to your oh-my-zsh installation.
 export ZSH="$ZDOTDIR/ohmyzsh"
 
