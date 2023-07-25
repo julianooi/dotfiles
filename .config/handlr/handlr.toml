@@ -1,2 +1,6 @@
 enable_selector = true
 selector = "rofi -dmenu -p 'Open With: '"
+
+[[handlers]]
+exec = "opera --user-data-dir='/home/julianooi/.config/opera-rtx' %u"
+regexes = ['.*/zumata_scripts', '^https://rakuten-travel-xchange.*']

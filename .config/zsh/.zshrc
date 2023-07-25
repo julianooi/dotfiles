@@ -4,8 +4,11 @@ if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
     tmux attach || tmux >/dev/null 2>&1
 fi
 source /usr/share/nvm/init-nvm.sh
+source ~/.config/zsh/config.d/alias
+source ~/.config/zsh/config.d/rtx-alias
 
 # Paths
+path+=('/home/julianooi/.config/scripts')
 path+=('/home/julianooi/.cargo/bin')
 path+=('/home/julianooi/.ghcup/bin')
 path+=('/opt/flutter/bin')
@@ -82,7 +85,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(aliases alias-finder ansible git gcloud golang jira ripgrep sudo terraform)
+plugins=(aliases alias-finder ansible git gcloud golang jira ripgrep sudo terraform kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,3 +122,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+#gcloud autocomplete
+source /opt/google-cloud-cli/completion.zsh.inc
+# gcloud end
