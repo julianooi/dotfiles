@@ -39,3 +39,8 @@ vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
 
 -- vim-go
 vim.keymap.set("n", "<leader>gf", "<cmd>GoFillStruct<cr>")
+
+-- rest-nvim
+vim.keymap.set('n', "<leader>rr", "<Plug>RestNvim", { desc = 'Run request under cursor' })
+vim.keymap.set('n', "<leader>rp", "<Plug>RestNvimLast", { desc = 'Run previous request under cursor' })
+vim.keymap.set('n', "<leader>rc", "<Plug>RestNvimPreview", { desc = 'View cURL command' })

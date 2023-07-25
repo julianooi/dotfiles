@@ -98,7 +98,11 @@ require('lazy').setup({
     'L3MON4D3/LuaSnip',
     dependencies = {
 			{'rafamadriz/friendly-snippets'}, -- Optional
-    }
+    },
+    config = function()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+      require('luasnip').setup()
+    end
   },
   'sago35/tinygo.vim',
   'folke/neodev.nvim',
@@ -106,6 +110,25 @@ require('lazy').setup({
     'rest-nvim/rest.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     name = 'rest-nvim',
+    config = function()
+      require("rest-nvim").setup({
+        -- Open request results in a horizontal split
+        result_split_horizontal = false,
+       -- Keep the http file buffer above|left when split horizontal|vertical
+       result_split_in_place = false,
+        -- Skip SSL verification, useful for unknown certificates
+        skip_ssl_verification = false,
+        -- Highlight request on run
+        highlight = {
+            enabled = true,
+            timeout = 150,
+        },
+        -- Jump to request line on run
+        jump_to_request = false,
+        env_file = '.env',
+        yank_dry_run = true,
+      })
+    end
   },
   'nvim-treesitter/nvim-treesitter-context',
   {
@@ -116,6 +139,14 @@ require('lazy').setup({
       'stevearc/dressing.nvim',
     },
     config = false,
+  },
+  {
+    'stevearc/dressing.nvim',
+    config = function()
+      require('dressing').setup {
+        input = { enabled = false },
+      }
+    end,
   },
 
   -- tools

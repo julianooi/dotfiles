@@ -6,15 +6,15 @@ local on_attach = function(client, bufnr)
 
   lsp.default_keymaps({
     buffer = bufnr,
-    omit = {'gi','go','gr','gd','<C-k>'},
+    omit = {'gi','go','gr','gd','<C-k>', '<C-p>'},
     preserve_mappings = false,
   })
   bind('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', opts)
   bind('n', 'go', '<cmd>Telescope lsp_type_definitions<cr>', opts)
   bind('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', opts)
   bind('n', 'gr', '<cmd>Telescope lsp_references<cr>', opts)
-  bind('n', '<C-p>', vim.lsp.buf.signature_help, opts)
-  bind('i', '<C-p>', vim.lsp.buf.signature_help, opts)
+  bind('n', '<C-p>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'show function signature' })
+  bind('i', '<C-p>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'show function signature' })
   bind('n', '<leader>pl', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>', opts)
 
   if client.server_capabilities.documentHighlightProvider then
@@ -83,7 +83,7 @@ cmp.setup {
     ['<CR>'] = cmp.mapping.confirm({select = false}),
     ['<C-p>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        return cmp.select_next_item()
+        return cmp.select_prev_item()
       end
       fallback()
     end)
@@ -92,6 +92,11 @@ cmp.setup {
     { name = 'nvim_lsp', group_index = 1, priority = 9},
     { name = 'luasnip', group_index = 1, priority = 10},
     { name = 'buffer', group_index = 10},
+  },
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end
   }
 }
 
