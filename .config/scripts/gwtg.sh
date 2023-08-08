@@ -4,3 +4,4 @@
 
 dir=$(git worktree list | fzf | cut -d ' ' -f1)
 cd $dir
+

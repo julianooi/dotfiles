@@ -33,14 +33,11 @@ include $HOME/.config/sway/config.d/*.conf
 
 for_window [title="^Picture in Picture$"] floating enable
 for_window [app_id="pcmanfm"] floating enable
+for_window [app_id="file-roller"] floating enable
 assign [class="Opera" instance=".*opera-rtx.*"] workspace number 2
 assign [class="Opera"] workspace number 1
 assign [app_id="foot"] workspace number 3
 assign [class="obsidian"] workspace number 4
-assign [app_id="Slack"] workspace number 5
-assign [app_id="thunderbird"] workspace number 5
+assign [app_id="Slack"] workspace number 10
+assign [app_id="thunderbird"] workspace number 10
 
-exec swayidle -w \
-         timeout 600 'swaylock -f -c 000000' \
-         timeout 900 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock -f -c 000000'

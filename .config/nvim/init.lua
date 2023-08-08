@@ -86,10 +86,11 @@ require('lazy').setup({
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
-      {'hrsh7th/cmp-buffer'},       -- Optional
-      {'hrsh7th/cmp-path'},         -- Optional
-      {'hrsh7th/cmp-nvim-lua'},     -- Optional
-      {'saadparwaiz1/cmp_luasnip'}, -- Optional
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'hrsh7th/cmp-nvim-lua'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'kristijanhusak/vim-dadbod-completion'},
     },
   },
 	{'williamboman/mason.nvim'},
@@ -277,6 +278,13 @@ require('lazy').setup({
       vim.o.timeoutlen = 500
       require('which-key').setup {}
     end
+  },
+
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+        'tpope/vim-dadbod',
+    },
   }
 })
 

@@ -62,7 +62,7 @@ require('mason-lspconfig').setup({
     end,
     terraformls = function()
       require('lspconfig').terraformls.setup {
-        filetypes = {'tf'}
+        filetypes = {'tf', 'terraform'}
       }
     end,
     lua_ls = function()
@@ -76,22 +76,24 @@ lsp.extend_cmp({
   set_extra_mappings = true,
   documentation_window = true,
 })
-
+require('luasnip.loaders.from_vscode').lazy_load()
 local cmp = require('cmp')
 cmp.setup {
   mapping = {
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
     ['<C-p>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        return cmp.select_prev_item()
-      end
-      fallback()
+        local visible = cmp.visible()
+        if not visible then
+            fallback()
+            return
+        end
+        cmp.select_prev_item()
     end)
   },
   sources = {
     { name = 'nvim_lsp', group_index = 1, priority = 9},
-    { name = 'luasnip', group_index = 1, priority = 10},
+    { name = 'luasnip', group_index = 1, priority = 0},
     { name = 'buffer', group_index = 10},
+    { name = 'vim-dadbod-completion'},
   },
   snippet = {
     expand = function(args)
