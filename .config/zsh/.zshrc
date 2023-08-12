@@ -7,14 +7,17 @@ source /usr/share/nvm/init-nvm.sh
 source ~/.config/zsh/config.d/alias
 source ~/.config/zsh/config.d/rtx-alias
 
-# Paths
-path+=('/home/julianooi/.config/scripts')
-path+=('/home/julianooi/.cargo/bin')
-path+=('/home/julianooi/.ghcup/bin')
-path+=('/opt/flutter/bin')
-
 # personal exports
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
 export GOPRIVATE="github.com/Zumata,bitbucket.org/zumata_scripts"
+
+# Paths
+path+=("$HOME/.config/scripts")
+path+=("$HOME/.cargo/bin")
+path+=("$HOME/.ghcup/bin")
+path+=('/opt/flutter/bin')
+path+=("$GOBIN")
 
 # Path to your oh-my-zsh installation.
 export ZSH="$ZDOTDIR/ohmyzsh"
