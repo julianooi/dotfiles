@@ -17,5 +17,5 @@
 	directory = /opt/flutter
 [merge]
 	tool = nvimdiff2
-[remote "origin"]
-	fetch = +refs/heads/*:refs/remotes/origin/*
+; [remote "origin"]
+; 	fetch = +refs/heads/*:refs/remotes/origin/*
