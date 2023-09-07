@@ -12,3 +12,4 @@ x-scheme-handler/jetbrains=jetbrains-toolbox.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird-TSPY71.desktop;
 x-scheme-handler/mid=userapp-Thunderbird-TSPY71.desktop;
 x-scheme-handler/unknown=vivaldi-stable.desktop;
+inode/directory=pcmanfm.desktop;

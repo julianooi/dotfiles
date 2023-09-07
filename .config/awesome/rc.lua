@@ -47,13 +47,14 @@ beautiful.bg_normal         = "#222D32"
 beautiful.bg_focus          = "#2C3940"
 beautiful.titlebar_close_button_normal = "/usr/share/awesome/themes/cesious/titlebar/close_normal_adapta.png"
 beautiful.titlebar_close_button_focus = "/usr/share/awesome/themes/cesious/titlebar/close_focus_adapta.png"
-beautiful.font              = "Noto Sans Regular 10"
-beautiful.notification_font = "Noto Sans Bold 14"
+-- beautiful.font              = "Noto Sans Regular 10"
+beautiful.font              = "Roboto Light 9"
+beautiful.notification_font = "Roboto Bold 12"
 
 -- This is used later as the default terminal and editor to run.
 local browser = "exo-open --launch WebBrowser" or "vivaldi-stable"
 local filemanager = "exo-open --launch FileManager" or "pcmanfm"
-local terminal = os.getenv("TERMINAL") or "alacritty"
+local terminal = os.getenv("TERMINAL") or "kitty"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -138,7 +139,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-local mytextclock = wibox.widget.textclock("%I:%M %k")
+local mytextclock = wibox.widget.textclock("%a %d-%b-%Y %I:%M %p")
 -- Keyboard map indicator and switcher
 local mykeyboardlayout = awful.widget.keyboardlayout()
 
@@ -211,7 +212,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -317,8 +318,8 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    --           {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)                 end,
               {description = "increase master width factor", group = "layout"}),
@@ -374,7 +375,13 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
+
+	-- Power
+	awful.key({ modkey, "Control", "Mod1" }, "s", function()
+		awful.spawn.with_shell("shutdown now")
+	end,
+	{ description = "shutdown", group = "power"})
 )
 
 clientkeys = gears.table.join(
@@ -418,13 +425,31 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+
+	-- Volume Keys
+	awful.key({}, "XF86AudioLowerVolume", function ()
+		awful.util.spawn("pamixer -d 5 --allow-boost --set-limit 200", false) end,
+		{ description = "reduce volume", group = "media control" }),
+	awful.key({}, "XF86AudioRaiseVolume", function ()
+		awful.util.spawn("pamixer -i 5 --allow-boost --set-limit 200", false) end,
+		{ description = "increase volume", group = "media control" }),
+	awful.key({}, "XF86AudioMute", function ()
+		awful.util.spawn("pamixer -t", false) end,
+		{ description = "toggle mute", group = "media control" }),
+	-- Media Keys
+	awful.key({}, "XF86AudioPlay", function()
+		awful.util.spawn("playerctl play-pause", false) end),
+	awful.key({}, "XF86AudioNext", function()
+		awful.util.spawn("playerctl next", false) end),
+	awful.key({}, "XF86AudioPrev", function()
+		awful.util.spawn("playerctl previous", false) end)
 )
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 1, 10 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
@@ -527,7 +552,7 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" } },
-      properties = { titlebars_enabled = true }
+      properties = { titlebars_enabled = false }
     },
 	
     -- Set Firefox to always map on the tag named "2" on screen 1.
