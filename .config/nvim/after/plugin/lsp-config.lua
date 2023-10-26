@@ -17,7 +17,7 @@ local on_attach = function(client, bufnr)
 	bind("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "show function signature" })
 	bind("n", "<leader>pl", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", opts)
 
-	if client.server_capabilities.documentHighlightProvider then
+	if client.name ~= "templ" and client.server_capabilities.documentHighlightProvider then
 		vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
 		vim.api.nvim_clear_autocmds({ buffer = bufnr, group = "lsp_document_highlight" })
 		vim.api.nvim_create_autocmd("CursorMoved", {
@@ -40,8 +40,6 @@ local on_attach = function(client, bufnr)
 				range = true,
 			}
 		end
-
-		vim.lsp.buf.code_action({})
 	end
 end
 
@@ -106,6 +104,11 @@ require("mason-lspconfig").setup({
 		end,
 		lua_ls = function()
 			require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+		end,
+		templ = function()
+			require("lspconfig").templ.setup({
+				filetypes = { "templ" },
+			})
 		end,
 	},
 })

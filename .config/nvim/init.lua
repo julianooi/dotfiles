@@ -64,7 +64,13 @@ require("lazy").setup({
 	},
 
 	-- lsp / treesitter
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = {
+			"vrischmann/tree-sitter-templ",
+		},
+	},
 	{
 		"nvim-treesitter/playground",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },

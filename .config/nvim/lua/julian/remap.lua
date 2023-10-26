@@ -6,14 +6,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>p", "\"_dP")
+vim.keymap.set("n", "<leader>p", '"_dP')
 
-vim.keymap.set("n", "<leader>y", "\"+y")
-vim.keymap.set("v", "<leader>y", "\"+y")
-vim.keymap.set("n", "<leader>Y", "\"+Y")
+vim.keymap.set("n", "<leader>y", '"+y')
+vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>Y", '"+Y')
 
-vim.keymap.set("n", "<leader>d", "\"_d")
-vim.keymap.set("v", "<leader>d", "\"_d")
+vim.keymap.set("n", "<leader>d", '"_d')
+vim.keymap.set("v", "<leader>d", '"_d')
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -41,6 +41,9 @@ vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
 vim.keymap.set("n", "<leader>gf", "<cmd>GoFillStruct<cr>")
 
 -- rest-nvim
-vim.keymap.set('n', "<leader>rr", "<Plug>RestNvim", { desc = 'Run request under cursor' })
-vim.keymap.set('n', "<leader>rp", "<Plug>RestNvimLast", { desc = 'Run previous request under cursor' })
-vim.keymap.set('n', "<leader>rc", "<Plug>RestNvimPreview", { desc = 'View cURL command' })
+vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim", { desc = "Run request under cursor" })
+vim.keymap.set("n", "<leader>rp", "<Plug>RestNvimLast", { desc = "Run previous request under cursor" })
+vim.keymap.set("n", "<leader>rc", "<Plug>RestNvimPreview", { desc = "View cURL command" })
+
+-- lsp
+vim.keymap.set("n", "<leader><leader>r", "<cmd>LspRestart<CR>", { desc = "restart lsp" })
