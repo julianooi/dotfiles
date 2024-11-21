@@ -29,7 +29,11 @@ require("lazy").setup({
 	{
 		"rcarriga/nvim-dap-ui",
 		name = "dapui",
-		dependencies = { "mfussenegger/nvim-dap", "folke/neodev.nvim" },
+		dependencies = {
+			"mfussenegger/nvim-dap",
+			"folke/neodev.nvim",
+			"nvim-neotest/nvim-nio",
+		},
 		config = function()
 			local dapui = require("dapui")
 			dapui.setup()
@@ -115,27 +119,17 @@ require("lazy").setup({
 	"sago35/tinygo.vim",
 	"folke/neodev.nvim",
 	{
+		"vhyrro/luarocks.nvim",
+		priority = 1000,
+		config = true,
+	},
+	{
 		"rest-nvim/rest.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = "http",
+		dependencies = { "nvim-lua/plenary.nvim", "luarocks.nvim" },
 		name = "rest-nvim",
 		config = function()
-			require("rest-nvim").setup({
-				-- Open request results in a horizontal split
-				result_split_horizontal = false,
-				-- Keep the http file buffer above|left when split horizontal|vertical
-				result_split_in_place = false,
-				-- Skip SSL verification, useful for unknown certificates
-				skip_ssl_verification = false,
-				-- Highlight request on run
-				highlight = {
-					enabled = true,
-					timeout = 150,
-				},
-				-- Jump to request line on run
-				jump_to_request = false,
-				env_file = ".env",
-				yank_dry_run = true,
-			})
+			require("rest-nvim").setup()
 		end,
 	},
 	"nvim-treesitter/nvim-treesitter-context",
@@ -165,30 +159,36 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 		},
 	},
-	{
-		"chentoast/marks.nvim",
-		config = function()
-			require("marks").setup({
-				default_mappings = true,
-			})
-		end,
-	},
+	-- {
+	-- 	"chentoast/marks.nvim",
+	-- 	config = function()
+	-- 		require("marks").setup({
+	-- 			default_mappings = true,
+	-- 		})
+	-- 	end,
+	-- },
 	"mbbill/undotree",
 	"tpope/vim-fugitive",
 	"airblade/vim-gitgutter",
 	{
-		"nvim-tree/nvim-tree.lua",
-		tag = "nightly",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		lazy = false,
-		config = function()
-			local t = require("nvim-tree")
-			t.setup()
-			require("nvim-tree.git").ignore = false
-		end,
+		"stevearc/oil.nvim",
+		opts = {},
+		-- Optional dependencies
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
+	-- {
+	-- 	"nvim-tree/nvim-tree.lua",
+	-- 	tag = "nightly",
+	-- 	dependencies = {
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		local t = require("nvim-tree")
+	-- 		t.setup()
+	-- 		require("nvim-tree.git").ignore = false
+	-- 	end,
+	-- },
 	"alexghergh/nvim-tmux-navigation",
 	{
 		"numToStr/Comment.nvim",
@@ -198,6 +198,13 @@ require("lazy").setup({
 	},
 	"sbdchd/neoformat",
 	"ggandor/leap.nvim",
+	{
+		"BartSte/nvim-project-marks",
+		lazy = false,
+		config = function()
+			require("projectmarks").setup({})
+		end,
+	},
 	"kdheepak/lazygit.nvim",
 	{
 		"lukas-reineke/indent-blankline.nvim",
@@ -211,44 +218,16 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"rest-nvim/rest.nvim",
-		config = function()
-			require("rest-nvim").setup({
-				skip_ssl_verification = true,
-				encode_url = true,
-				highlight = {
-					enabled = true,
-					timeout = 150,
-				},
-				result = {
-					-- toggle showing URL, HTTP info, headers at top the of result window
-					show_url = true,
-					show_http_info = true,
-					show_headers = true,
-					-- executables or functions for formatting response body [optional]
-					-- set them to false if you want to disable them
-					formatters = {
-						json = "jq",
-						html = function(body)
-							return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
-						end,
-					},
-				},
-				-- Jump to request line on run
-				jump_to_request = false,
-				env_file = ".env",
-				custom_dynamic_variables = {},
-				yank_dry_run = true,
-			})
-		end,
-	},
-	{
 		"cbochs/portal.nvim",
 		-- Optional dependencies
 		dependencies = {
 			"cbochs/grapple.nvim",
-			"ThePrimeagen/harpoon",
 		},
+	},
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
 	-- session management
@@ -263,8 +242,6 @@ require("lazy").setup({
 					"~/Downloads",
 					"/",
 				},
-				pre_save_cmds = { "tabdo NvimTreeClose" },
-				post_restore_cmds = { "tabdo NvimTreeOpen", "tabdo NvimTreeRefresh" },
 			})
 		end,
 	},
@@ -288,4 +265,8 @@ require("lazy").setup({
 			"tpope/vim-dadbod",
 		},
 	},
+
+	-- {
+	-- 	"github/copilot.vim",
+	-- },
 })

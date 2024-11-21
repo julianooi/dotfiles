@@ -3,19 +3,32 @@ local lsp = require("lsp-zero").preset({})
 local on_attach = function(client, bufnr)
 	local opts = { buffer = bufnr }
 	local bind = vim.keymap.set
+	local tele = require("telescope.builtin")
+
+	local function viewReferences()
+		tele.lsp_references({
+			include_declaration = false,
+			include_current_line = false,
+		})
+	end
+	bind("n", "<leader><leader>r", viewReferences, opts)
+	bind("n", "gr", viewReferences, { buffer = bufnr, desc = "view references" })
+	bind("n", "g[", tele.lsp_incoming_calls, { buffer = bufnr, desc = "lsp incoming calls" })
+	bind("n", "g]", tele.lsp_outgoing_calls, { buffer = bufnr, desc = "lsp outgoing calls" })
+	bind("n", "gi", tele.lsp_implementations, { buffer = bufnr, desc = "lsp implementations" })
+	bind("n", "go", "<cmd>Telescope lsp_type_definitions<cr>", { buffer = bufnr, desc = "lsp type definitions" })
+	bind("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", { buffer = bufnr, desc = "lsp type definitions" })
+	bind("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { buffer = bufnr, desc = "lsp go to definitions" })
+	bind("n", "<C-]>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "lsp show function signature" })
+	bind("i", "<C-]>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "lsp show function signature" })
+	bind("n", "<leader>pl", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", opts)
+	bind("n", "<leader>pL", "<cmd>Telescope lsp_document_symbols<cr>", opts)
 
 	lsp.default_keymaps({
 		buffer = bufnr,
 		omit = { "gi", "go", "gr", "gd", "<C-k>", "<C-p>" },
-		preserve_mappings = false,
+		preserve_mappings = true,
 	})
-	bind("n", "gi", "<cmd>Telescope lsp_implementations<cr>", opts)
-	bind("n", "go", "<cmd>Telescope lsp_type_definitions<cr>", opts)
-	bind("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
-	bind("n", "gr", "<cmd>Telescope lsp_references<cr>", opts)
-	bind("n", "<C-p>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "show function signature" })
-	bind("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "show function signature" })
-	bind("n", "<leader>pl", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", opts)
 
 	if client.name ~= "templ" and client.server_capabilities.documentHighlightProvider then
 		vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
@@ -43,23 +56,45 @@ local on_attach = function(client, bufnr)
 	end
 end
 
+local client_capabilities = {
+	workspace = {
+		didChangeWatchedFiles = {
+			dynamicRegistration = true,
+		},
+	},
+}
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	handlers = {
 		lsp.default_setup,
 		emmet_language_server = function()
 			require("lspconfig").emmet_language_server.setup({
-				filetypes = { "html", "gohtml" },
+				filetypes = { "html", "gohtml", "templ" },
 			})
 		end,
 		html = function()
 			require("lspconfig").html.setup({
-				filetypes = { "html", "gohtml" },
+				filetypes = { "html", "gohtml", "templ" },
 			})
 		end,
 		volar = function()
-			require("lspconfig").volar.setup({
-				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+			require("lspconfig").volar.setup({})
+		end,
+		ts_ls = function()
+			local mason_registry = require("mason-registry")
+			local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
+				.. "/node_modules/@vue/language-server"
+			require("lspconfig").ts_ls.setup({
+				init_options = {
+					plugins = {
+						{
+							name = "@vue/typescript-plugin",
+							location = vue_language_server_path,
+							languages = { "vue" },
+						},
+					},
+				},
+				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 			})
 		end,
 		yamlls = function()
@@ -73,7 +108,14 @@ require("mason-lspconfig").setup({
 		end,
 		gopls = function()
 			require("lspconfig").gopls.setup({
-				filetypes = { "go", "gohtml", "html" },
+				filetypes = { "go", "gohtml", "html", "gomod" },
+				capabilities = {
+					workspace = {
+						didChangeWatchedFiles = {
+							dynamicRegistration = true,
+						},
+					},
+				},
 				settings = {
 					gopls = {
 						semanticTokens = true,
@@ -94,7 +136,11 @@ require("mason-lspconfig").setup({
 		end,
 		golangci_lint_ls = function()
 			require("lspconfig").golangci_lint_ls.setup({
-				filetypes = { "go" },
+				capabilities = client_capabilities,
+				filetypes = { "go", "gomod" },
+				-- on_init = function(client)
+				-- 	return false
+				-- end,
 			})
 		end,
 		terraformls = function()
@@ -107,29 +153,57 @@ require("mason-lspconfig").setup({
 		end,
 		templ = function()
 			require("lspconfig").templ.setup({
+				capabilities = client_capabilities,
 				filetypes = { "templ" },
+			})
+		end,
+		tailwindcss = function()
+			require("lspconfig").tailwindcss.setup({
+				capabilities = {
+					workspace = {
+						didChangeWatchedFiles = {
+							dynamicRegistration = true,
+						},
+					},
+				},
+				filetypes = {
+					"templ",
+					"gohtml",
+				},
+				init_options = {
+					userLanguages = {
+						templ = "html",
+					},
+				},
+			})
+		end,
+		elixirls = function()
+			require("lspconfig").elixirls.setup({
+				capabilities = client_capabilities,
+				filetypes = { "elixir", "eelixir", "exs" },
 			})
 		end,
 	},
 })
 
+require("lspconfig").gdscript.setup({
+	filetypes = { "gd", "gdscript", "gdscript3" },
+})
 lsp.extend_cmp({
+	set_mapping = true,
 	set_basic_mapping = true,
 	set_extra_mappings = true,
 	documentation_window = true,
 })
 require("luasnip.loaders.from_vscode").lazy_load()
 local cmp = require("cmp")
+local cmp_action = require("lsp-zero").cmp_action()
 cmp.setup({
 	mapping = {
-		["<C-p>"] = cmp.mapping(function(fallback)
-			local visible = cmp.visible()
-			if not visible then
-				fallback()
-				return
-			end
-			cmp.select_prev_item()
-		end),
+		["<C-p>"] = cmp_action.select_prev_or_fallback(),
+		-- Scroll up and down in the completion documentation
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
 	},
 	sources = {
 		{ name = "nvim_lsp", group_index = 1, priority = 9 },

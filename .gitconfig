@@ -12,10 +12,18 @@
 [url "git@tritbit.bitbucket.org:tritbit"]
   insteadOf = https://bitbucket.org/tritbit
 [url "git@github.com:"]
-  insteadOf = https://github.com/
+  insteadOf = https://github.com
 [safe]
 	directory = /opt/flutter
 [merge]
 	tool = nvimdiff2
 ; [remote "origin"]
 ; 	fetch = +refs/heads/*:refs/remotes/origin/*
+[mergetool]
+	keepBackup = false
+[includeIf "gitdir:~/Development/rtx/**"]
+	path = ~/rtx/.gitconfig
+[includeIf "gitdir:~/rtx/**"]
+	path = ~/rtx/.gitconfig
+[includeIf "gitdir:~/Development/tritbit/**"]
+	path = ~/tritbit/.gitconfig

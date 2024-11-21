@@ -1,12 +1,12 @@
 -- use separate fork of vue treesitter cause upstream doesn't support typescript
 local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.vue = {
-	install_info = {
-		url = "https://github.com/xiaoxin-sky/tree-sitter-vue",
-		files = { "src/parser.c", "src/scanner.cc" },
-	},
-	filetype = "vue",
-}
+-- parser_config.vue = {
+-- 	install_info = {
+-- 		url = "https://github.com/xiaoxin-sky/tree-sitter-vue",
+-- 		files = { "src/parser.c", "src/scanner.cc" },
+-- 	},
+-- 	filetype = "vue",
+-- }
 parser_config.templ = {
 	install_info = {
 		url = "https://github.com/vrischmann/tree-sitter-templ.git",

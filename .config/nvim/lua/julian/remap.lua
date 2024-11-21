@@ -1,5 +1,4 @@
 vim.keymap.set("n", "\\", "<cmd>w<cr>")
-vim.keymap.set("n", "<leader>pv", "<cmd>NvimTreeToggle<CR>")
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -12,6 +11,8 @@ vim.keymap.set("n", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>Y", '"+Y')
 
+vim.keymap.set("n", "<leader>gy", "<cmd>let @+=expand('%:p')<CR>")
+
 vim.keymap.set("n", "<leader>d", '"_d')
 vim.keymap.set("v", "<leader>d", '"_d')
 
@@ -23,9 +24,6 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 
 vim.keymap.set("n", "<leader>hl", "<cmd>set hlsearch!<CR>")
-
--- nvim-tree
-vim.keymap.set("n", "<leader>tf", "<cmd>NvimTreeFindFile<CR>")
 
 vim.keymap.set("n", "<C-h>", "<cmd>NvimTmuxNavigateLeft<CR>")
 vim.keymap.set("n", "<C-j>", "<cmd>NvimTmuxNavigateDown<CR>")
@@ -41,9 +39,15 @@ vim.keymap.set("n", "<leader>i", "<cmd>Portal jumplist forward<cr>")
 vim.keymap.set("n", "<leader>gf", "<cmd>GoFillStruct<cr>")
 
 -- rest-nvim
-vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim", { desc = "Run request under cursor" })
-vim.keymap.set("n", "<leader>rp", "<Plug>RestNvimLast", { desc = "Run previous request under cursor" })
-vim.keymap.set("n", "<leader>rc", "<Plug>RestNvimPreview", { desc = "View cURL command" })
+vim.keymap.set("n", "<leader>rr", "<cmd>Rest run<CR>", { desc = "Run request under cursor" })
+vim.keymap.set("n", "<leader>rp", "<cmd>RestNvimLast", { desc = "Run previous request under cursor" })
+vim.keymap.set("n", "<leader>rc", "<cmd>RestNvimPreview", { desc = "View cURL command" })
 
 -- lsp
 vim.keymap.set("n", "<leader><leader>r", "<cmd>LspRestart<CR>", { desc = "restart lsp" })
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "show diagnostics" })
+
+vim.keymap.set("n", "<leader>pc", function()
+	local filepath = vim.fn.expand("%:p")
+	vim.fn.setreg("+", filepath) -- write to clippoard
+end)
